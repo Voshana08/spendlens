@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================
+// USER — Mirrors Supabase Auth user
+// ============================================
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  currency  String   @default("AUD")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations — one user has many of each
+  transactions Transaction[]
+  categories   Category[]
+  budgets      Budget[]
+  investments  Investment[]
+  uploads      Upload[]
+
+  @@map("users") // Maps to "users" table in PostgreSQL
+}
+
+// ============================================
+// CATEGORY — Expense/Income categories
+// ============================================
+model Category {
+  id        String  @id @default(uuid())
+  name      String
+  icon      String  @default("📦")
+  color     String  @default("#6B7280")
+  isDefault Boolean @default(false) @map("is_default")
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transactions Transaction[]
+  budgets      Budget[]
+
+  @@map("categories")
+}
+
+// ============================================
+// TRANSACTION — Income & Expense entries
+// ============================================
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum TransactionSource {
+  MANUAL
+  AI_RECEIPT
+  AI_STATEMENT
+}
+
+enum RecurrenceInterval {
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+model Transaction {
+  id                 String              @id @default(uuid())
+  amount             Decimal
+  type               TransactionType
+  description        String
+  date               DateTime
+  isRecurring        Boolean             @default(false) @map("is_recurring")
+  recurrenceInterval RecurrenceInterval? @map("recurrence_interval")
+  source             TransactionSource   @default(MANUAL)
+  createdAt          DateTime            @default(now()) @map("created_at")
+
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  categoryId String   @map("category_id")
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@map("transactions")
+}
+
+// ============================================
+// BUDGET — Monthly budget per category
+// ============================================
+model Budget {
+  id     String  @id @default(uuid())
+  amount Decimal
+  month  Int     // 1-12
+  year   Int     // e.g. 2026
+
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  categoryId String   @map("category_id")
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([userId, categoryId, month, year]) // One budget per category per month
+  @@map("budgets")
+}
+
+// ============================================
+// INVESTMENT — Portfolio holdings
+// ============================================
+
+enum InvestmentType {
+  STOCK
+  CRYPTO
+  ETF
+  BOND
+  PROPERTY
+  OTHER
+}
+
+model Investment {
+  id           String         @id @default(uuid())
+  name         String
+  type         InvestmentType
+  buyPrice     Decimal        @map("buy_price")
+  quantity     Decimal
+  currentValue Decimal        @map("current_value")
+  purchaseDate DateTime       @map("purchase_date")
+  notes        String?
+  createdAt    DateTime       @default(now()) @map("created_at")
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("investments")
+}
+
+// ============================================
+// UPLOAD — PDF upload tracking
+// ============================================
+
+enum UploadType {
+  RECEIPT
+  BANK_STATEMENT
+}
+
+enum UploadStatus {
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model Upload {
+  id         String       @id @default(uuid())
+  fileName   String       @map("file_name")
+  fileUrl    String       @map("file_url")
+  fileType   UploadType   @map("file_type")
+  status     UploadStatus @default(PROCESSING)
+  parsedData Json?        @map("parsed_data")
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("uploads")
+}
