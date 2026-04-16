@@ -52,6 +52,7 @@ export default function LoginPage() {
       if (error) {
         setError(error.message);
       } else {
+        await fetch("/api/auth/sync", { method: "POST" });
         router.push("/dashboard");
         router.refresh();
       }
