@@ -2,23 +2,11 @@
 
 **An AI-powered personal finance tracker that turns your receipts, bank statements, and spending habits into actionable insights.**
 
-SpendLens lets you upload PDFs, auto-extract transactions via Claude, track budgets and investments, and ask natural-language questions about your financial data — all in a clean, responsive web app.
+SpendLens lets you upload PDFs, auto-extract transactions via Claude, track budgets and investments, and ask natural-language questions about your financial data, all in a clean, responsive web app.
 
 ---
 
-## 📸 Screenshots
 
-> _Replace the paths below with your actual screenshots._
-
-| Dashboard | Transactions | AI Insights |
-|-----------|-------------|-------------|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Transactions](docs/screenshots/transactions.png) | ![Insights](docs/screenshots/insights.png) |
-
-| Budgets | Investments | Upload |
-|---------|-------------|--------|
-| ![Budgets](docs/screenshots/budgets.png) | ![Investments](docs/screenshots/investments.png) | ![Upload](docs/screenshots/upload.png) |
-
----
 
 ## ✨ Features
 
@@ -63,52 +51,8 @@ SpendLens lets you upload PDFs, auto-extract transactions via Claude, track budg
 
 ---
 
-## 🏗 Architecture
 
-```mermaid
-graph TD
-    Browser["Browser / Client"]
-
-    subgraph "Next.js 14 (App Router)"
-        SC["Server Components\n(dashboard, layout)"]
-        CC["Client Components\n(tables, forms, charts)"]
-        RH["Route Handlers\n/api/**"]
-    end
-
-    subgraph "External Services"
-        SB_AUTH["Supabase Auth\nOAuth + Sessions"]
-        SB_DB["Supabase PostgreSQL\n(via Prisma)"]
-        SB_STORE["Supabase Storage\nPDF uploads"]
-        CLAUDE["Anthropic Claude API\nclaude-sonnet-4-6"]
-    end
-
-    Browser -->|"HTTP + Cookie"| SC
-    Browser -->|"fetch / RSC"| CC
-    CC -->|"fetch"| RH
-    SC -->|"fetch with cookies"| RH
-
-    RH -->|"Prisma ORM"| SB_DB
-    RH -->|"supabase.auth.getUser()"| SB_AUTH
-    RH -->|"Storage SDK"| SB_STORE
-    RH -->|"messages.create / stream"| CLAUDE
-
-    SB_AUTH -.->|"JWT cookie"| Browser
-```
-
-### Request lifecycle
-
-```
-Browser
-  └─▶ Next.js Route Handler  (/api/*)
-        ├─▶ getUser()           Validates Supabase session cookie → Prisma user
-        ├─▶ Zod.safeParse()     Validates request body / query params
-        ├─▶ Prisma              Reads / writes PostgreSQL
-        └─▶ Anthropic SDK       (AI routes only) Calls Claude, optionally streams
-              └─▶ ReadableStream  Piped back to browser as text/plain
-```
-
----
-
+  
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -469,50 +413,20 @@ SpendLens is designed to deploy to [Vercel](https://vercel.com) with zero config
    - Supabase: Authentication → URL Configuration
    - Google Cloud Console: OAuth 2.0 → Authorised redirect URIs
 
-### Notes
 
-- Use the **Transaction pooler** connection string (`DATABASE_URL`, port 6543) for runtime — Vercel's serverless functions require pooled connections.
-- Use the **Direct** connection (`DIRECT_URL`, port 5432) only for `prisma db push` / migrations.
-- The `/api/ai/query` streaming route works on all Vercel plans (no special configuration required).
 
 ---
 
-## 📄 License
 
-MIT License — see [LICENSE](LICENSE) for details.
-
-```
-Copyright (c) 2026 [Your Name]
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
----
 
 ## 👤 Author
 
-**[Your Name]**
+**Voshana Nissanka**
 
-- GitHub: [@your-username](https://github.com/your-username)
-- LinkedIn: [linkedin.com/in/your-linkedin](https://linkedin.com/in/your-linkedin)
-- Portfolio: [your-website.com](https://your-website.com)
+- GitHub: [voshana08](https://github.com/Voshana08)
+- LinkedIn: [https://www.linkedin.com/in/voshana-nissanka/]
+
 
 ---
 
-<p align="center">Built with Next.js · Prisma · Supabase · Claude AI</p>
+
