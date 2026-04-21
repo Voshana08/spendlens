@@ -1,16 +1,6 @@
 {
-  "/page": "app/page.js",
-  "/api/dashboard/summary/route": "app/api/dashboard/summary/route.js",
-  "/api/transactions/route": "app/api/transactions/route.js",
-  "/api/categories/route": "app/api/categories/route.js",
-  "/api/uploads/route": "app/api/uploads/route.js",
-  "/api/budgets/progress/route": "app/api/budgets/progress/route.js",
   "/api/investments/route": "app/api/investments/route.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
-  "/(dashboard)/transactions/page": "app/(dashboard)/transactions/page.js",
-  "/(dashboard)/upload/page": "app/(dashboard)/upload/page.js",
-  "/(dashboard)/budgets/page": "app/(dashboard)/budgets/page.js",
   "/(dashboard)/investments/page": "app/(dashboard)/investments/page.js",
-  "/(dashboard)/insights/page": "app/(dashboard)/insights/page.js",
-  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js"
+  "/(dashboard)/insights/page": "app/(dashboard)/insights/page.js"
 }
