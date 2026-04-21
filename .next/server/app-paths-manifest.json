@@ -1,4 +1,9 @@
 {
+  "/api/categories/route": "app/api/categories/route.js",
   "/api/ai/insights/route": "app/api/ai/insights/route.js",
-  "/(dashboard)/insights/page": "app/(dashboard)/insights/page.js"
+  "/api/transactions/route": "app/api/transactions/route.js",
+  "/api/user/profile/route": "app/api/user/profile/route.js",
+  "/(dashboard)/transactions/page": "app/(dashboard)/transactions/page.js",
+  "/(dashboard)/insights/page": "app/(dashboard)/insights/page.js",
+  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js"
 }
