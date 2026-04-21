@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/(dashboard)/dashboard/page": [
+    "/(dashboard)/investments/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/dashboard/page.js"
+      "static/chunks/app/(dashboard)/investments/page.js"
     ],
     "/(dashboard)/layout": [
       "static/chunks/webpack.js",
@@ -16,10 +16,10 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(dashboard)/investments/page": [
+    "/(dashboard)/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/investments/page.js"
+      "static/chunks/app/(dashboard)/dashboard/page.js"
     ],
     "/(dashboard)/insights/page": [
       "static/chunks/webpack.js",
