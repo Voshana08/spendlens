@@ -214,7 +214,7 @@ export function TransactionFormDialog({
           {/* Date */}
           <div className="space-y-1.5">
             <Label>Date</Label>
-            <Popover>
+            <Popover modal={false}>
               <PopoverTrigger asChild>
                 <Button
                   type="button"

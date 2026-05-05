@@ -1,9 +1,11 @@
 {
   "/api/categories/route": "app/api/categories/route.js",
-  "/api/ai/insights/route": "app/api/ai/insights/route.js",
   "/api/transactions/route": "app/api/transactions/route.js",
-  "/api/user/profile/route": "app/api/user/profile/route.js",
-  "/(dashboard)/transactions/page": "app/(dashboard)/transactions/page.js",
+  "/api/uploads/route": "app/api/uploads/route.js",
+  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
+  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js",
+  "/(dashboard)/investments/page": "app/(dashboard)/investments/page.js",
   "/(dashboard)/insights/page": "app/(dashboard)/insights/page.js",
-  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js"
+  "/(dashboard)/transactions/page": "app/(dashboard)/transactions/page.js",
+  "/(dashboard)/upload/page": "app/(dashboard)/upload/page.js"
 }
