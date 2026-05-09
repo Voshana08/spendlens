@@ -21,30 +21,25 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/layout.js"
     ],
-    "/(dashboard)/settings/page": [
+    "/(dashboard)/transactions/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/settings/page.js"
-    ],
-    "/(dashboard)/insights/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/insights/page.js"
+      "static/chunks/app/(dashboard)/transactions/page.js"
     ],
     "/(dashboard)/investments/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/investments/page.js"
     ],
-    "/(dashboard)/transactions/page": [
+    "/(dashboard)/insights/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/transactions/page.js"
+      "static/chunks/app/(dashboard)/insights/page.js"
     ],
-    "/(dashboard)/upload/page": [
+    "/(dashboard)/settings/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/upload/page.js"
+      "static/chunks/app/(dashboard)/settings/page.js"
     ]
   }
 }

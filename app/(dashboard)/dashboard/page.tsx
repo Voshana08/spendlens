@@ -13,6 +13,7 @@ import { SpendingTrendChart } from "@/components/dashboard/spending-trend-chart"
 import { CategoryBreakdownChart } from "@/components/dashboard/category-breakdown-chart";
 import { RecentTransactions } from "@/components/dashboard/recent-transactions";
 import { BudgetProgressList } from "@/components/dashboard/budget-progress-list";
+import { HealthScoreCard, type HealthScoreData } from "@/components/dashboard/health-score-card";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -59,32 +60,34 @@ function calcTrend(current: number, previous: number): number | null {
   return ((current - previous) / previous) * 100;
 }
 
-async function getSummary(): Promise<Summary | null> {
+async function fetchDashboard(): Promise<{
+  summary: Summary | null;
+  healthScore: HealthScoreData | null;
+}> {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore
     .getAll()
     .map(({ name, value }) => `${name}=${value}`)
     .join("; ");
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const headers = { Cookie: cookieHeader };
 
-  try {
-    const res = await fetch(`${baseUrl}/api/dashboard/summary`, {
-      headers: { Cookie: cookieHeader },
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    return res.json();
-  } catch {
-    return null;
-  }
+  const [summaryRes, healthRes] = await Promise.all([
+    fetch(`${baseUrl}/api/dashboard/summary`,      { headers, cache: "no-store" }),
+    fetch(`${baseUrl}/api/dashboard/health-score`, { headers, cache: "no-store" }),
+  ]);
+
+  return {
+    summary:     summaryRes.ok  ? await summaryRes.json()  : null,
+    healthScore: healthRes.ok   ? await healthRes.json()   : null,
+  };
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default async function DashboardPage() {
-  const summary = await getSummary();
+  const { summary, healthScore } = await fetchDashboard();
 
   if (!summary) {
     return (
@@ -130,8 +133,8 @@ export default async function DashboardPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Dashboard</h1>
 
-      {/* Row 1 — Stat cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {/* Row 1 — Stat cards + health score */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           title="Income this month"
           value={currentMonth.income}
@@ -153,6 +156,7 @@ export default async function DashboardPage() {
           trendPositiveIsGood={true}
           variant="net"
         />
+        {healthScore && <HealthScoreCard {...healthScore} />}
       </div>
 
       {/* Row 2 — Charts */}
